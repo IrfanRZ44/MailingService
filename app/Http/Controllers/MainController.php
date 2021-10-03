@@ -10,16 +10,14 @@ use Illuminate\Database\QueryException;
 use Storage;
 use Carbon;
 use Validator;
-// use App\Exports\UsersMerchantExport;
-// use App\Exports\UsersPelangganExport;
-// use App\Exports\KlaimPenjualanExport;
-// use App\Imports\KlaimPenjualanImport;
+use App\Exports\EmailExport;
+use App\Imports\EmailImport;
 use Symfony\Component\HttpFoundation\Response;
 use Maatwebsite\Excel\Facades\Excel;
 
 class MainController extends Controller
 {
-    private $folderFileKlaimPenjualan = "/excel/";
+    private $folderFileEmail = "/excel/";
     
     private function getDateTime(){
         $mytime = Carbon\Carbon::now()->timezone('Asia/Makassar');
@@ -85,6 +83,74 @@ class MainController extends Controller
 
         if($akun != null){
             return view("/welcome", ['dataUser' => $akun]);
+        }
+        else{
+            return redirect('/');
+        }
+    }
+
+    public function index(){
+        $akun = session('user');
+
+        if($akun == null){
+            return view("/login");
+        }
+        else{
+            return redirect('/main');
+        }
+    }
+
+    public function download(){
+        $akun = session('user');
+
+        if($akun != null){
+            return Excel::download(new EmailExport(), 'Email Examples.xlsx');
+        }
+        else{
+            return redirect('/');
+        }
+    }
+
+    public function sent(Request $request){
+        $akun = session('user');
+        
+        if($akun != null){
+            $base_url = url('/');
+            $validatorFile = Validator::make($request->all(), [
+                'etFile' => 'mimes:xlsx|required'
+            ]);
+
+            if ($validatorFile->fails()) {  
+                return redirect('/main')->with(['status' => "Error, please select file with xlsx"]);
+            }
+            else{
+                $file = $request->file('etFile');
+                $extension = $file->getClientOriginalExtension();
+                $name = Str::random(5)."_".$this->getTimeStamp().".".$extension;
+                $folder = $this->folderFileEmail;
+                $file->move(public_path().$folder, $name);
+
+                $import = new EmailImport;
+                Excel::import($import, public_path('excel/'.$name));
+
+                $data = Excel::toArray(new EmailImport, public_path('excel/'.$name));
+                try{
+                    collect(head($data))
+                        ->each(function ($row, $key) {
+                            if ($row[0] == "Number" && $row[1] == "Email") {
+                                return "asda";
+                            }
+                            else{
+                                return "barus 2";
+                            }
+                        });
+                    
+                    return redirect('/main')->with(['status' => "Success"]);
+                }
+                catch(\Exception $e){
+                    return redirect('/main')->with(['status' => "Failed, ".$e->getMessage()]);
+                }
+            }
         }
         else{
             return redirect('/');
