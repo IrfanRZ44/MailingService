@@ -33,16 +33,20 @@ return [
     |
     */
 
-    'mailers' => [
+    'mailers' => [ 
         'smtp' => [
+            'driver' => env('MAIL_DRIVER', 'smtp'),
+            'host' => env('MAIL_HOST', 'smtp.gmail.com'),
+            'port' => env('MAIL_PORT', 465),
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+            'encryption' => env('MAIL_ENCRYPTION', 'ssl'),
             'username' => env('MAIL_USERNAME'),
             'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'auth_mode' => null,
+            'sendmail' => '\”C:\xampp\sendmail\sendmail.exe\” -t',
+            'pretend' => false,
+
+            // 'timeout' => null,
+            // 'auth_mode' => null,
         ],
 
         'ses' => [
@@ -91,10 +95,7 @@ return [
     |
     */
 
-    'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
-    ],
+    'from' => ['address' => 'desacenranabaru@gmail.com', 'name' => 'Irfan Tes'],
 
     /*
     |--------------------------------------------------------------------------

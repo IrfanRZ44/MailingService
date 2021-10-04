@@ -49,19 +49,19 @@
 
                         <div class="mb-1"> <span class="text-sm">Description</span> <textarea type="text" class="h-24 py-1 px-3 w-full border-2 border-blue-400 rounded focus:outline-none focus:border-blue-600 resize-none" name="etDesc"></textarea> </div>
                         
-                        <!-- <div class="mb-1"> <span>Email Attachments</span>
+                        <div class="mb-1"> <span>Email Attachments</span>
                             <div class="relative border-dotted h-32 rounded-lg border-dashed border-2 border-blue-700 bg-gray-100 flex justify-center items-center">
                                 <div class="absolute">
                                     <div class="flex flex-col items-center"> <i class="fa fa-folder-open fa-3x text-blue-700"></i> <span class="block text-gray-400 font-normal">Attach you files here</span> </div>
                                 </div> <input type="file" class="h-full w-full opacity-0" name="etFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                             </div>
-                        </div> -->
-                        <div class="row mb-3 ">
+                        </div>
+                        <!-- <div class="row mb-3 ">
                           <label class="col-sm-3 text-right col-form-label">File Klaim Penjualan</label>
                           <div class="col-sm-7">
                             <input class="form-control" type="file" name="etFile" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
                           </div>
-                        </div>
+                        </div> -->
 
                         <div class="mt-3 text-right"> 
                             <a href="/download">Download Example</a> 

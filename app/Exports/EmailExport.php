@@ -2,12 +2,11 @@
 
 namespace App\Exports;
 
-use App\Models\UsersPelanggan;
+use App\Models\Email;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class EmailExport implements WithHeadings
-    // , FromCollection
+class EmailExport implements WithHeadings, FromCollection
 {
 
      function __construct() {
@@ -20,12 +19,13 @@ class EmailExport implements WithHeadings
     {
         return [
             'Number',
+            'Name',
             'Email',
         ];
     }
 
-    // public function collection()
-    // {
-    //     return;
-    // }
+    public function collection()
+    {
+        return Email::all();
+    }
 }

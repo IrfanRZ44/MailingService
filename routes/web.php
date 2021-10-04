@@ -20,3 +20,11 @@ Route::get('/logout', 'App\Http\Controllers\MainController@logout');
 Route::get('/main', 'App\Http\Controllers\MainController@main');
 Route::get('/download', 'App\Http\Controllers\MainController@download');
 Route::post('/sent', 'App\Http\Controllers\MainController@sent');
+
+Route::get('/clear-cache', function() {
+    $exitCode = Artisan::call('config:clear');
+    $exitCode = Artisan::call('cache:clear');
+    $exitCode = Artisan::call('config:cache');
+    $exitCode = Artisan::call('view:cache');
+    return 'DONE'; //Return anything
+});
